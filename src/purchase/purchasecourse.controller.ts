@@ -1,23 +1,30 @@
-import { Controller, Param, Post, UseGuards } from '@nestjs/common';
+import { Controller, Param, Post, Req, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { PurchaseCourseService } from './purchasecourse.service';
 import { Course } from 'src/courses/entities/courses.entity';
 import { GetUser } from 'src/auth/decorators/get-user.decorator';
 import { User } from 'src/auth/entities/user.entity';
 import { PurchasedCourse } from './entities/purchasecourse.entiy';
+import { CoursesService } from 'src/courses/courses.service';
+import { AuthService } from 'src/auth/auth.service';
 
 @Controller('purchase-course')
 export class PurchaseCourseController {
-  constructor(private purchaseCourseService: PurchaseCourseService) {}
+  constructor(
+    private authService: AuthService,
+    private courseService: CoursesService,
+    private purchaseCourseService: PurchaseCourseService,
+  ) {}
 
-  @Post('/:id')
-  createPurchase(
-    @Param('id') id: number,
+  @UseGuards(AuthGuard('jwt'))
+  @Post(':id')
+  async createPurchase(
+    @Param('id')
+    id: number,
     @GetUser() user: User,
-    course: Course,
   ): Promise<PurchasedCourse> {
-    if (id === course.id) {
-      return this.purchaseCourseService.createPurchase(course, user);
-    }
+    const course = await this.courseService.getCourseById(id);
+
+    return this.purchaseCourseService.createPurchase(course, user);
   }
 }

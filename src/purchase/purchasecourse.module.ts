@@ -5,10 +5,20 @@ import { PurchasedCourse } from './entities/purchasecourse.entiy';
 import { PurchaseCourseController } from './purchasecourse.controller';
 import { PurchaseCourseService } from './purchasecourse.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { CoursesModule } from 'src/courses/courses.module';
+import { CoursesService } from 'src/courses/courses.service';
+import { Course } from 'src/courses/entities/courses.entity';
+import { User } from 'src/auth/entities/user.entity';
+import { AuthModule } from 'src/auth/auth.module';
+import { AuthService } from 'src/auth/auth.service';
+import { UserRoles } from 'src/auth/entities/user-roles.entity';
+import { JwtService } from '@nestjs/jwt';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([PurchasedCourse]),
+    CoursesModule,
+    AuthModule,
+    TypeOrmModule.forFeature([PurchasedCourse, Course, User, UserRoles]),
     ClientsModule.register([
       {
         name: 'ORDER_SERVICE',
@@ -21,6 +31,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
     ]),
   ],
   controllers: [PurchaseCourseController],
-  providers: [PurchaseCourseService],
+  providers: [PurchaseCourseService, CoursesService, AuthService, JwtService],
 })
 export class PurchasecourseModule {}

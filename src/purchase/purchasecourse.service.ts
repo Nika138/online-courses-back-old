@@ -16,7 +16,7 @@ export class PurchaseCourseService {
   async createPurchase(course: Course, user: User): Promise<PurchasedCourse> {
     const purchase = new PurchasedCourse();
     purchase.course = course.id;
-    purchase.status;
+    purchase.status = CourseStatus.PURCHASING;
     purchase.user = user.id;
 
     await this.purchasedCourse.save(purchase);

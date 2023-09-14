@@ -7,6 +7,7 @@ import { AuthModule } from 'src/auth/auth.module';
 import { LoggingInterceptor } from 'src/log/log.interceptor';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { LogEntity } from 'src/log/log.entity';
+import { PurchasedCourse } from 'src/purchase/entities/purchasecourse.entiy';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Course, LogEntity]), AuthModule],

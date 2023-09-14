@@ -11,6 +11,7 @@ import { LogEntity } from './log.entity';
 import { Repository } from 'typeorm';
 import { User } from '../auth/entities/user.entity';
 import { number } from '@hapi/joi';
+import { error } from 'console';
 
 @Injectable()
 export class LoggingInterceptor implements NestInterceptor {
