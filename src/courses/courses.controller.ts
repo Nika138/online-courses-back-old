@@ -6,6 +6,7 @@ import {
   Patch,
   Post,
   Query,
+  SetMetadata,
   UseGuards,
 } from '@nestjs/common/decorators';
 import { Course } from './entities/courses.entity';
@@ -19,6 +20,8 @@ import { UpdateCourseDto } from './dto/update-course.dto';
 import { GetCoursesFilterDto } from './dto/get-courses-filter';
 import { filter } from 'rxjs';
 
+import { logEnum } from 'src/log/log.enum';
+
 @Controller('courses')
 @UseGuards(AuthGuard())
 export class CoursesController {
@@ -27,6 +30,7 @@ export class CoursesController {
 
   @UseGuards(AuthGuard())
   @Post('/create')
+  @SetMetadata('logType', [logEnum.CREATECOURSE])
   createCourse(
     @Body() CreateCourseDto: CreateCourseDto,
     @GetUser() user: User,

@@ -12,6 +12,7 @@ import { Repository } from 'typeorm';
 import { User } from '../auth/entities/user.entity';
 import { number } from '@hapi/joi';
 import { error } from 'console';
+import { logEnum } from './log.enum';
 
 @Injectable()
 export class LoggingInterceptor implements NestInterceptor {
@@ -28,12 +29,15 @@ export class LoggingInterceptor implements NestInterceptor {
     const device = request.device;
     const date = new Date();
 
+    const logtype = Reflect.getMetadata('logType', context.getClass());
+
     return next.handle().pipe(
       tap((user: User) => {
         const log = new LogEntity();
         log.ipAdress = ipAdress;
         log.date = date;
         log.user = user.id;
+        log.logType = logtype;
         this.logrepository.save(log);
       }),
     );

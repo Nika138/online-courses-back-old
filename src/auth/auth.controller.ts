@@ -7,6 +7,7 @@ import {
   Param,
   Patch,
   UseInterceptors,
+  SetMetadata,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthCredentialsDto } from './dto/auth-credentials.dto';
@@ -15,12 +16,14 @@ import { User } from 'src/auth/entities/user.entity';
 import { GetUser } from 'src/auth/decorators/get-user.decorator';
 import { UserRoles } from './entities/user-roles.entity';
 import { EditUserDto } from './dto/edit-user.dto';
+import { logEnum } from 'src/log/log.enum';
 
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
 
   @Post('/signup')
+  @SetMetadata('logType', [logEnum.SIGNUP])
   async signUp(@Body() authCredentialsDto: AuthCredentialsDto): Promise<void> {
     try {
       authCredentialsDto.role = Number(authCredentialsDto.role);
@@ -31,6 +34,7 @@ export class AuthController {
   }
 
   @Post('/signin')
+  @SetMetadata('logType', [logEnum.LOGIN])
   signIn(
     @Body() authCredentialsDto: AuthCredentialsDto,
   ): Promise<{ accessToken: string }> {

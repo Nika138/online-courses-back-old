@@ -1,5 +1,5 @@
 export enum logEnum {
+  SIGNUP,
   LOGIN,
-  LOGOUT,
   CREATECOURSE,
 }

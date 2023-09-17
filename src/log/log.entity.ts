@@ -14,8 +14,8 @@ export class LogEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  // @Column()
-  // logType: logEnum;
+  @Column()
+  logType: logEnum;
 
   @Column()
   ipAdress: string;

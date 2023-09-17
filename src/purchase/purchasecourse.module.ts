@@ -1,5 +1,4 @@
 import { Module } from '@nestjs/common';
-import { MicroserviceModule } from './microservice/microservice.module';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { PurchasedCourse } from './entities/purchasecourse.entiy';
 import { PurchaseCourseController } from './purchasecourse.controller';
